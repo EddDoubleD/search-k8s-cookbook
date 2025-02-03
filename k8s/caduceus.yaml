@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: caduceus
-          image: cr.cloud-preprod.yandex.net/crtioebhgqbfi2ae1pqd/caduceus:31f1669799df34b6ed53390f8c6805887218e9fd.caduceus-is-coming
+          image: cr.cloud-preprod.yandex.net/crtioebhgqbfi2ae1pqd/caduceus:85ec9c57ff84551b4e10099ed76f202caa24ab6c.trunk
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
