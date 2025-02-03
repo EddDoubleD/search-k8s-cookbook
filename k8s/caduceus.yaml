@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: caduceus
+  namespace: search-on-prem
+  labels:
+    app: caduceus
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: caduceus
+  template:
+    metadata:
+      labels:
+        app: caduceus
+    spec:
+      containers:
+        - name: caduceus
+          image: cr.cloud-preprod.yandex.net/crtioebhgqbfi2ae1pqd/caduceus:31f1669799df34b6ed53390f8c6805887218e9fd.caduceus-is-coming
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+              name: http
+          volumeMounts:
+            - name: caduceus-data
+              mountPath: /usr/disk/search/caduceus/data/
+      volumes:
+        - name: caduceus-data
+          persistentVolumeClaim:
+            claimName: csi-s3-pvc
+            readOnly: false
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: caduceus
+  name: caduceus
+  namespace: search-on-prem
+spec:
+  ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    app: caduceus
+  type: ClusterIP
