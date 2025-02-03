@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: ariadne
+  namespace: search-on-prem
+spec:
+  selector:
+    matchLabels:
+      app: ariadne
+  serviceName: "ariadne"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ariadne
+    spec:
+      containers:
+        - name: ariadne
+          image: cr.cloud-preprod.yandex.net/crtioebhgqbfi2ae1pqd/ariadne:9f088b2027039aba6fdd0c04c9a54933f97d625f.caduceus-is-coming
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: DJFS_HOST
+              value: "caduceus.search-on-prem.svc.cluster.local"
+          ports:
+            - containerPort: 8081
+              name: searcher
+            - containerPort: 8082
+              name: indexer
+            - containerPort: 8087
+              name: kali
+          volumeMounts:
+            - name: logs-pvc
+              mountPath: /var/log/disk
+            - name: job-config
+              mountPath: /var/log/disk/index/jobs
+            - name: config
+              mountPath: /usr/disk/search/ariadne/config
+          livenessProbe:
+            httpGet:
+              path: /ping
+              port: 8087
+            initialDelaySeconds: 5
+            periodSeconds: 10
+      volumes:
+        - name: job-config
+          configMap:
+            name: job-cm
+        - name: config
+          configMap:
+            name: config-cm
+  volumeClaimTemplates:
+    - metadata:
+        name: logs-pvc
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: "yc-network-ssd"
+        resources:
+          requests:
+            storage: 30Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ariadne
+  namespace: search-on-prem
+spec:
+  ports:
+    - port: 8081
+      name: indexer-port
+    - port: 8082
+      name: search-port
+    - port: 8087
+      name: kali-port
+  clusterIP: None
+  selector:
+    app: ariadne
