@@ -38,7 +38,7 @@ spec:
               name: http
           volumeMounts:
             - name: search-map
-              mountPath: /usr/disk/search/proxy/
+              mountPath: /usr/disk/search/proxy/search_map
       volumes:
         - name: search-map
           configMap:
