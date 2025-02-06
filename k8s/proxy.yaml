@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: disk-search-proxy
-          image: cr.cloud-preprod.yandex.net/crtioebhgqbfi2ae1pqd/disk_search_proxy:eb9040ec8befb387ad680cc28e1ab083925227d8.disk-search-proxy-on-docker
+          image: cr.cloud-preprod.yandex.net/crtioebhgqbfi2ae1pqd/disk_search_proxy:2f9e6d5151465a4905251efc01d421c1d269a8a4.disk-search-proxy-on-docker
           imagePullPolicy: IfNotPresent
           env:
             - name: XMX
