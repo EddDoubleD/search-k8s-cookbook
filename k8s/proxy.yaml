@@ -32,7 +32,7 @@ spec:
               name: http
           volumeMounts:
             - name: search-map
-              mountPath: /usr/disk/search/caduceus/data/
+              mountPath: /usr/disk/search/proxy/
       volumes:
         - name: search-map
           configMap:
