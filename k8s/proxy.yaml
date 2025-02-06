@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: disk-search-proxy
-          image: cr.cloud-preprod.yandex.net/crtioebhgqbfi2ae1pqd/disk_search_proxy:2f9e6d5151465a4905251efc01d421c1d269a8a4.disk-search-proxy-on-docker
+          image: cr.cloud-preprod.yandex.net/crtioebhgqbfi2ae1pqd/disk_search_proxy:94d84c641188777255d4d82ef99eb5a040746b4f.disk-search-proxy-on-docker
           imagePullPolicy: IfNotPresent
           env:
             - name: XMX
@@ -25,6 +25,8 @@ spec:
             - name: XMS
               value: "512M"
             - name: DJFS_HOST
+              value: "caduceus.search-on-prem.svc.cluster.local"
+            - name: PRODUCER_HOST
               value: "caduceus.search-on-prem.svc.cluster.local"
             - name: HTTPS_PORT
               value: "8080"
