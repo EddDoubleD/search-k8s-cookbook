@@ -26,6 +26,10 @@ spec:
               value: "512M"
             - name: DJFS_HOST
               value: "caduceus.search-on-prem.svc.cluster.local"
+            - name: HTTPS_PORT
+              value: "8080"
+            - name: HTTP_PORT
+              value: "8080"
           ports:
             - containerPort: 8080
               protocol: TCP
