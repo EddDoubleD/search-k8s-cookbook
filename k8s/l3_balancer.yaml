@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: disk-search-proxy
+  name: disk-search-proxy
+  namespace: search-on-prem
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      name: handler # Имя обработчика внутри сервиса Network Load Balancer
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    app: caduceus

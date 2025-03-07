@@ -1,0 +1,19 @@
+kind: StorageClass
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+---
+kind: Job
+# Запускается когда стартовала ariadne, и ей нужно обновить copyJobik
+# 1. Идем в s3, из которого берем джобик
+# 2. Стреляем этим джобиком в ariadne-0
+# 3. Проставляем ariadne-0 pingDisable
+# 4. Ждем пока ariadne-0 поднимется
+# 5. Умираем
+---
+kind: Pod /Job
+init container: sh // lock
+
+persistentVolumeClaim:
+  claimName: csi-s3-pvc
+  readOnly: false
